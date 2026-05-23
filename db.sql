@@ -1,0 +1,69 @@
+create database Factor24;
+use Factor24;
+
+create table Users(
+Id INT AUTO_INCREMENT PRIMARY KEY,
+IdRol BIGINT NOT NULL,
+Name VARCHAR(200) NOT NULL,
+Lastname VARCHAR(200) NOT NULL,
+Image VARCHAR(1000) NOT NULL,
+Age INT NOT NULL,
+IdCity INT NOT NULL,
+IdState INT NOT NULL,
+IdCountry INT NOT NULL,
+RegisterDate DATETIME NOT NULL,
+UpdatedDate DATETIME NOT NULL
+);
+
+create table Rol(
+Id INT PRIMARY KEY,
+Name VARCHAR(200) NOT NULL,
+RegisterDate DATETIME NOT NULL,
+UpdatedDate DATETIME NOT NULL
+);
+
+create table City(
+Id INT PRIMARY KEY,
+Name VARCHAR(200) NOT NULL,
+RegisterDate DATETIME NOT NULL,
+UpdatedDate DATETIME NOT NULL
+);
+
+create table State(
+Id INT PRIMARY KEY,
+Name VARCHAR(200) NOT NULL,
+RegisterDate DATETIME NOT NULL,
+UpdatedDate DATETIME NOT NULL
+);
+
+create table Country(
+Id INT PRIMARY KEY,
+Name VARCHAR(200) NOT NULL,
+RegisterDate DATETIME NOT NULL,
+UpdatedDate DATETIME NOT NULL
+);
+
+create table Magazine(
+Id INT AUTO_INCREMENT PRIMARY KEY,
+Title VARCHAR(350) NOT NULL,
+Description VARCHAR(350) NOT NULL,
+NumberEdition INT NOT NULL,
+TxtEdition VARCHAR(350) NOT NULL,
+IdCategory1 INT NOT NULL,
+TxtCategory1 VARCHAR(1000) NOT NULL,
+IdCategory2 INT NOT NULL,
+TxtCategory2 VARCHAR(1000) NOT NULL,
+IdCategory3 INT NOT NULL,
+TxtCategory3 VARCHAR(1000) NOT NULL,
+IdCategory4 INT NOT NULL,
+TxtCategory4 VARCHAR(1000) NOT NULL,
+IdCategory5 INT NOT NULL,
+TxtCategory5 VARCHAR(1000) NOT NULL,
+IdCategory6 INT NOT NULL,
+TxtCategory6 VARCHAR(1000) NOT NULL,
+ImgMagazine VARCHAR(1000) NOT NULL,
+IdUser BIGINT NOT NULL,
+RegisterDate DATETIME NOT NULL,
+UpdatedDate DATETIME NOT NULL
+);
+

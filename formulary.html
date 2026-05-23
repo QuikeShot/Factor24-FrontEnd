@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Crear Revista</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial, Helvetica, sans-serif;
+
+  background:
+    radial-gradient(circle at top left, rgba(124,58,237,.20), transparent 34%),
+    radial-gradient(circle at top right, rgba(6,182,212,.16), transparent 30%),
+    radial-gradient(circle at bottom, rgba(37,99,235,.10), transparent 36%),
+    #050B1A;
+
+  color:#F8FAFC;
+
+  min-height:100vh;
+
+  padding:60px 20px;
+}
+
+/* =========================
+   VARIABLES
+========================= */
+
+:root{
+
+  --bg-dark:#050B1A;
+  --bg-secondary:#0B132B;
+  --bg-card:#111827;
+
+  --purple-main:#7C3AED;
+  --blue-electric:#2563EB;
+  --cyan-accent:#06B6D4;
+  --turquoise-glow:#22D3EE;
+
+  --text-main:#F8FAFC;
+  --text-muted:#CBD5E1;
+  --text-soft:#64748B;
+
+  --border-soft:#1E293B;
+
+  --shadow-card:0 24px 80px rgba(0,0,0,.38);
+  --shadow-glow:0 0 40px rgba(124,58,237,.28);
+
+  --radius-xl:28px;
+  --radius-lg:20px;
+}
+
+/* =========================
+   WRAPPER
+========================= */
+
+.form-wrapper{
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.form-header{
+  margin-bottom:42px;
+}
+
+.form-header span{
+  color:var(--turquoise-glow);
+  font-size:.85rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.form-header h1{
+  margin-top:16px;
+
+  font-size:clamp(3rem,7vw,5.8rem);
+
+  line-height:.95;
+
+  letter-spacing:-.08em;
+}
+
+.form-header p{
+  margin-top:20px;
+
+  max-width:760px;
+
+  color:var(--text-muted);
+
+  font-size:1.05rem;
+}
+
+/* =========================
+   FORM CARD
+========================= */
+
+.form-card{
+  padding:40px;
+
+  border-radius:var(--radius-xl);
+
+  border:1px solid var(--border-soft);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(17,24,39,.95),
+      rgba(11,19,43,.92)
+    );
+
+  box-shadow:
+    var(--shadow-card),
+    var(--shadow-glow);
+}
+
+/* =========================
+   GRID
+========================= */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:26px;
+}
+
+.full-width{
+  grid-column:span 2;
+}
+
+/* =========================
+   FORM GROUP
+========================= */
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+}
+
+.form-group label{
+  margin-bottom:10px;
+
+  font-size:.95rem;
+
+  font-weight:700;
+}
+
+.form-group input,
+.form-group textarea{
+  width:100%;
+
+  padding:16px 18px;
+
+  border-radius:16px;
+
+  border:1px solid var(--border-soft);
+
+  background:rgba(15,23,42,.88);
+
+  color:var(--text-main);
+
+  outline:none;
+
+  transition:all .25s ease;
+
+  font-size:.95rem;
+}
+
+.form-group textarea{
+  min-height:180px;
+  resize:vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus{
+  border-color:var(--turquoise-glow);
+
+  box-shadow:
+    0 0 0 4px rgba(34,211,238,.08),
+    0 0 22px rgba(34,211,238,.14);
+}
+
+/* =========================
+   DROP ZONE
+========================= */
+
+.drop-zone{
+  position:relative;
+
+  min-height:320px;
+
+  border-radius:24px;
+
+  overflow:hidden;
+
+  border:2px dashed rgba(34,211,238,.30);
+
+  background:rgba(15,23,42,.75);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  transition:all .25s ease;
+}
+
+.drop-zone:hover{
+  border-color:var(--turquoise-glow);
+
+  box-shadow:
+    0 0 30px rgba(34,211,238,.12);
+}
+
+.drop-zone.drag-over{
+  border-color:var(--turquoise-glow);
+
+  background:rgba(34,211,238,.06);
+
+  box-shadow:
+    0 0 35px rgba(34,211,238,.18);
+}
+
+.drop-content{
+  text-align:center;
+
+  padding:30px;
+
+  z-index:2;
+
+  transition:all .25s ease;
+}
+
+.drop-icon{
+  width:80px;
+  height:80px;
+
+  margin:auto auto 20px;
+
+  border-radius:50%;
+
+  display:grid;
+  place-items:center;
+
+  font-size:2.4rem;
+
+  font-weight:900;
+
+  color:var(--turquoise-glow);
+
+  background:rgba(34,211,238,.10);
+
+  border:1px solid rgba(34,211,238,.35);
+}
+
+.drop-content h3{
+  font-size:1.5rem;
+
+  margin-bottom:10px;
+}
+
+.drop-content p{
+  color:var(--text-muted);
+
+  margin-bottom:20px;
+}
+
+.drop-content button{
+  border:none;
+
+  padding:14px 24px;
+
+  border-radius:999px;
+
+  cursor:pointer;
+
+  font-weight:800;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--purple-main),
+      var(--blue-electric),
+      var(--cyan-accent)
+    );
+
+  transition:all .25s ease;
+}
+
+.drop-content button:hover{
+  transform:translateY(-2px);
+}
+
+.preview-image{
+  position:absolute;
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  display:none;
+}
+
+.drop-zone.has-image .preview-image{
+  display:block;
+}
+
+.drop-zone.has-image .drop-content{
+  opacity:0;
+  pointer-events:none;
+}
+
+/* =========================
+   CATEGORY SECTION
+========================= */
+
+.category-section{
+  margin-top:50px;
+}
+
+.category-section h2{
+  font-size:2.2rem;
+
+  letter-spacing:-.05em;
+
+  margin-bottom:12px;
+}
+
+.category-section p{
+  color:var(--text-muted);
+
+  margin-bottom:30px;
+}
+
+/* =========================
+   CATEGORY GRID
+========================= */
+
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:22px;
+}
+
+/* =========================
+   CATEGORY CARD
+========================= */
+
+.category-card{
+  padding:26px;
+
+  border-radius:24px;
+
+  border:1px solid var(--border-soft);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(17,24,39,.90),
+      rgba(11,19,43,.88)
+    );
+
+  transition:all .25s ease;
+}
+
+.category-card:hover{
+  transform:translateY(-5px);
+
+  border-color:rgba(34,211,238,.35);
+
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.30),
+    0 0 24px rgba(34,211,238,.10);
+}
+
+.category-card h3{
+  margin-bottom:20px;
+
+  color:var(--turquoise-glow);
+
+  font-size:1.2rem;
+
+  letter-spacing:-.03em;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.submit-container{
+  margin-top:42px;
+
+  display:flex;
+  justify-content:flex-end;
+}
+
+.btn-submit{
+  border:none;
+
+  padding:16px 30px;
+
+  border-radius:999px;
+
+  cursor:pointer;
+
+  font-size:1rem;
+
+  font-weight:800;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--purple-main),
+      var(--blue-electric),
+      var(--cyan-accent)
+    );
+
+  box-shadow:
+    0 14px 45px rgba(124,58,237,.30),
+    0 0 26px rgba(6,182,212,.16);
+
+  transition:all .25s ease;
+}
+
+.btn-submit:hover{
+  transform:translateY(-3px);
+
+  box-shadow:
+    0 20px 60px rgba(124,58,237,.42),
+    0 0 36px rgba(34,211,238,.22);
+}
+
+.category-card textarea {
+  width: 100%;
+  min-height: 170px;
+  resize: vertical;
+
+  padding: 16px 18px;
+
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+
+  background: rgba(15, 23, 42, 0.88);
+  color: var(--text-main);
+
+  outline: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+
+  transition: all 0.25s ease;
+}
+
+.category-card textarea::placeholder {
+  color: var(--text-soft);
+}
+
+.category-card textarea:focus {
+  border-color: var(--turquoise-glow);
+
+  box-shadow:
+    0 0 0 4px rgba(34, 211, 238, 0.08),
+    0 0 22px rgba(34, 211, 238, 0.14);
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+  .form-grid,
+  .category-grid{
+    grid-template-columns:1fr;
+  }
+
+  .full-width{
+    grid-column:span 1;
+  }
+
+  .form-card{
+    padding:28px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="form-wrapper">
+
+  <!-- HEADER -->
+
+  <div class="form-header">
+
+    <span>Panel Editorial</span>
+
+    <h1>Crear Nueva Revista</h1>
+
+    <p>
+      Publica una nueva edición editorial con portada personalizada,
+      categorías dinámicas y contenido tecnológico premium.
+    </p>
+
+  </div>
+
+  <!-- FORM -->
+
+  <form class="form-card">
+
+    <!-- DATOS PRINCIPALES -->
+
+    <div class="form-grid">
+
+      <div class="form-group full-width">
+        <label>Título de la revista</label>
+
+        <input
+          type="text"
+          name="Title"
+          placeholder="Ej. Factor 24 - Innovación Digital"
+        >
+      </div>
+
+      <div class="form-group full-width">
+        <label>Descripción</label>
+
+        <textarea
+          name="Description"
+          placeholder="Describe la temática principal de esta edición..."
+        ></textarea>
+      </div>
+
+      <!-- DRAG & DROP -->
+
+      <div class="form-group full-width">
+
+        <label>Portada de la revista</label>
+
+        <div class="drop-zone" id="dropZone">
+
+          <input
+            type="file"
+            id="ImgMagazine"
+            name="ImgMagazine"
+            accept=".png,.jpg,.jpeg,image/png,image/jpeg"
+            hidden
+          >
+
+          <div class="drop-content">
+
+            <div class="drop-icon">+</div>
+
+            <h3>Arrastra tu portada aquí</h3>
+
+            <p>
+              Solo archivos PNG, JPG o JPEG
+            </p>
+
+            <button
+              type="button"
+              id="selectImageBtn"
+            >
+              Seleccionar imagen
+            </button>
+
+          </div>
+
+          <img
+            id="previewImage"
+            class="preview-image"
+            alt="Preview"
+          >
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CATEGORIES -->
+
+    <div class="category-section">
+
+      <h2>Categorías Editoriales</h2>
+
+      <p>
+        Estas son las 6 secciones oficiales de cada edición.
+      </p>
+
+      <div class="category-grid">
+
+        <!-- 1 -->
+
+        <div class="category-card">
+
+          <h3>01 Tema del Mes</h3>
+
+          <input type="hidden" name="IdCategory1" value="1">
+
+          <textarea
+            name="TxtCategory1"
+            placeholder="Contenido para Tema del Mes"
+          ></textarea>
+
+        </div>
+
+        <!-- 2 -->
+
+        <div class="category-card">
+
+          <h3>02 Creatividad digital</h3>
+
+          <input type="hidden" name="IdCategory2" value="2">
+
+          <textarea
+            name="TxtCategory2"
+            placeholder="Contenido para Creatividad digital"
+          ></textarea>
+
+        </div>
+
+        <!-- 3 -->
+
+        <div class="category-card">
+
+          <h3>03 Automatización</h3>
+
+          <input type="hidden" name="IdCategory3" value="3">
+
+          <textarea
+            name="TxtCategory3"
+            placeholder="Contenido para Automatización"
+          ></textarea>
+
+        </div>
+
+        <!-- 4 -->
+
+        <div class="category-card">
+
+          <h3>04 Code Without Fear</h3>
+
+          <input type="hidden" name="IdCategory4" value="4">
+
+          <textarea
+            name="TxtCategory4"
+            placeholder="Contenido para Code Without Fear"
+          ></textarea>
+
+        </div>
+
+        <!-- 5 -->
+
+        <div class="category-card">
+
+          <h3>05 Herramienta del mes</h3>
+
+          <input type="hidden" name="IdCategory5" value="5">
+
+          <textarea
+            name="TxtCategory5"
+            placeholder="Contenido para Herramienta del mes"
+          ></textarea>
+
+        </div>
+
+        <!-- 6 -->
+
+        <div class="category-card">
+
+          <h3>06 Hecho en MX</h3>
+
+          <input type="hidden" name="IdCategory6" value="6">
+
+          <textarea
+            name="TxtCategory6"
+            placeholder="Contenido para Hecho en MX"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SUBMIT -->
+
+    <div class="submit-container">
+
+      <button type="submit" class="btn-submit">
+        Publicar Revista
+      </button>
+
+    </div>
+
+  </form>
+
+</div>
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("ImgMagazine");
+const selectImageBtn = document.getElementById("selectImageBtn");
+const previewImage = document.getElementById("previewImage");
+
+const validTypes = [
+  "image/png",
+  "image/jpg",
+  "image/jpeg"
+];
+
+/* =========================
+   OPEN FILE EXPLORER
+========================= */
+
+selectImageBtn.addEventListener("click", () => {
+  fileInput.click();
+});
+
+dropZone.addEventListener("click", () => {
+  fileInput.click();
+});
+
+/* =========================
+   DRAG EVENTS
+========================= */
+
+dropZone.addEventListener("dragover", (e) => {
+
+  e.preventDefault();
+
+  dropZone.classList.add("drag-over");
+
+});
+
+dropZone.addEventListener("dragleave", () => {
+
+  dropZone.classList.remove("drag-over");
+
+});
+
+dropZone.addEventListener("drop", (e) => {
+
+  e.preventDefault();
+
+  dropZone.classList.remove("drag-over");
+
+  const file = e.dataTransfer.files[0];
+
+  handleImage(file);
+
+});
+
+/* =========================
+   INPUT CHANGE
+========================= */
+
+fileInput.addEventListener("change", () => {
+
+  const file = fileInput.files[0];
+
+  handleImage(file);
+
+});
+
+/* =========================
+   HANDLE IMAGE
+========================= */
+
+function handleImage(file){
+
+  if(!file) return;
+
+  if(!validTypes.includes(file.type)){
+
+    alert("Solo se permiten imágenes PNG, JPG o JPEG.");
+
+    fileInput.value = "";
+
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+
+    previewImage.src = e.target.result;
+
+    dropZone.classList.add("has-image");
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+</script>
+
+</body>
+</html>
